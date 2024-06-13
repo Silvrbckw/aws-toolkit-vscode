@@ -49,10 +49,14 @@ export async function mochaGlobalSetup(extensionId: string) {
 
         // Extension activation has many side-effects such as changing globals
         // For stability in tests we will wait until the extension has activated prior to injecting mocks
-        await vscode.extensions.getExtension(extensionId)?.activate()
+        const ext = vscode.extensions.getExtension(extensionId)
+        if (!ext) {
+            throw new Error(`Unknown extension id: ${extensionId}`)
+        }
+        await ext.activate()
         const fakeContext = await FakeExtensionContext.create()
         fakeContext.globalStorageUri = (await testUtil.createTestWorkspaceFolder('globalStoragePath')).uri
-        fakeContext.extensionPath = globals.context.extensionPath
+        fakeContext.extensionPath = ext.extensionPath
         Object.assign(globals, { context: fakeContext })
     }
 }
