@@ -78,6 +78,7 @@ export async function activateAmazonQCommon(context: vscode.ExtensionContext, is
         }
     }
 
+    getLogger().info("extension globals: %O", globals)
     globals.machineId = await getMachineId()
     globals.awsContext = new DefaultAwsContext()
     globals.sdkClientBuilder = new DefaultAWSClientBuilder(globals.awsContext)
@@ -90,6 +91,8 @@ export async function activateAmazonQCommon(context: vscode.ExtensionContext, is
     globals.outputChannel = qOutputChannel
     globals.logOutputChannel = qLogChannel
     globals.loginManager = new LoginManager(globals.awsContext, new CredentialsStore())
+
+    getLogger().info("extension globals: %O", globals)
 
     await activateTelemetry(context, globals.awsContext, Settings.instance, 'Amazon Q For VS Code')
 
