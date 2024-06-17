@@ -55,10 +55,6 @@ export async function mochaGlobalSetup(extensionId: string) {
             throw new Error(`Unknown extension id: ${extensionId}`)
         }
         await ext.activate()
-        await waitUntil(async () => globals !== undefined, {
-            interval: 1000,
-            timeout: 30000,
-        })
         const fakeContext = await FakeExtensionContext.create()
         fakeContext.globalStorageUri = (await testUtil.createTestWorkspaceFolder('globalStoragePath')).uri
         fakeContext.extensionPath = ext.extensionPath
