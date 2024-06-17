@@ -59,6 +59,16 @@ export async function mochaGlobalSetup(extensionId: string) {
         fakeContext.globalStorageUri = (await testUtil.createTestWorkspaceFolder('globalStoragePath')).uri
         fakeContext.extensionPath = ext.extensionPath
         Object.assign(globals, { context: fakeContext })
+
+        // don't continue until all the globals we need are setup
+        await waitUntil(
+            async () =>
+                globals !== undefined && globals.telemetry && globals.codelensRootRegistry && globals.templateRegistry,
+            {
+                interval: 100,
+                timeout: 30000,
+            }
+        )
     }
 }
 
@@ -86,10 +96,6 @@ export const mochaHooks = {
         }
 
         // Enable telemetry features for tests. The metrics won't actually be posted.
-        await waitUntil(async () => globals !== undefined, {
-            interval: 100,
-            timeout: 30000,
-        })
         globals.telemetry.telemetryEnabled = true
         globals.telemetry.clearRecords()
         globals.telemetry.logger.clear()
