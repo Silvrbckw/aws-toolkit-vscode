@@ -58,11 +58,12 @@ export async function mochaGlobalSetup(extensionId: string) {
         fakeContext.globalStorageUri = (await testUtil.createTestWorkspaceFolder('globalStoragePath')).uri
         fakeContext.extensionPath = ext.extensionPath
         Object.assign(globals, { context: fakeContext })
-        getLogger().info("globals: %O", globals)
+        getLogger().info('globals 1: %O', globals)
 
         // don't continue until all the globals we need are setup
-        await new Promise(resolve => setTimeout(resolve, 60000))
-        getLogger().info("globals: %O", globals)
+        await new Promise(resolve => setTimeout(resolve, 20000))
+        getLogger().info('globals 2: %O', globals)
+        await new Promise(resolve => setTimeout(resolve, 60000 * 5))
     }
 }
 
