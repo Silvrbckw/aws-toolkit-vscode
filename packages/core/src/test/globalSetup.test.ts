@@ -23,7 +23,6 @@ import { getTestWindow, resetTestWindow } from './shared/vscode/window'
 import { mapTestErrors, normalizeError, setRunnableTimeout } from './setupUtil'
 import { TelemetryDebounceInfo } from '../shared/vscode/commands2'
 import { disableAwsSdkWarning } from '../shared/awsClientBuilder'
-import { sleep, waitUntil } from '../shared'
 
 disableAwsSdkWarning()
 
