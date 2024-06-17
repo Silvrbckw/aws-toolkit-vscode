@@ -61,6 +61,7 @@ export async function mochaGlobalSetup(extensionId: string) {
 
         // don't continue until all the globals we need are setup
         await new Promise(resolve => setTimeout(resolve, 60000))
+        console.log(globals)
     }
 }
 
