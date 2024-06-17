@@ -23,6 +23,7 @@ import { getTestWindow, resetTestWindow } from './shared/vscode/window'
 import { mapTestErrors, normalizeError, setRunnableTimeout } from './setupUtil'
 import { TelemetryDebounceInfo } from '../shared/vscode/commands2'
 import { disableAwsSdkWarning } from '../shared/awsClientBuilder'
+import { waitUntil } from '../shared'
 
 disableAwsSdkWarning()
 
@@ -85,6 +86,10 @@ export const mochaHooks = {
         }
 
         // Enable telemetry features for tests. The metrics won't actually be posted.
+        await waitUntil(async () => globals !== undefined, {
+            interval: 100,
+            timeout: 30000,
+        })
         globals.telemetry.telemetryEnabled = true
         globals.telemetry.clearRecords()
         globals.telemetry.logger.clear()
